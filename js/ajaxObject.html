@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oBtn = document.getElementById('btn1');
+
+			oBtn.onclick = function(){
+				Ajax('a.txt',function(str){
+					alert(str);
+				})
+			}
+		}
+	</script>
+</head>
+<body>
+	<input type="button" id="btn1" value="点击触发Ajax" />
+</body>
+</html>

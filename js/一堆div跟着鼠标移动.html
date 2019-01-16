@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		div{
+			width: 20px;
+			height: 20px;
+			position: absolute;
+			background: red;
+		}
+	</style>
+	<script type="text/javascript">
+		//鼠标当前的坐标
+		function getPos(ev){
+			var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+			var scrollLeft = document.documentElement.scrollLeft||document.body.scrollLeft;
+			return {x:ev.clientX+scrollLeft,y:ev.clientY+scrollTop};
+		}
+		document.onmousemove = function(ev){
+			var oDiv = document.getElementsByTagName('div');
+
+			var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+
+			var oEvent = ev||event;
+			for(var i=oDiv.length-1;i>0;i--){
+				
+				oDiv[i].style.left = oDiv[i-1].offsetLeft+'px';
+				oDiv[i].style.top = oDiv[i-1].offsetTop+'px';
+				
+			}
+			//i=0的情况
+			oDiv[i].style.left = getPos(oEvent).x+'px';
+			oDiv[i].style.top = getPos(oEvent).y+'px';
+		};
+	</script>
+</head>
+<body>
+	<!-- 会发生事件冒泡：解决使用event.cancelBubble=true -->
+	<!-- <div onclick="alert(this.style.background)">
+		<div style="background: yellow;width: 200px;height: 200px;padding: 20px;" onclick="alert(this.style.background)">
+			<div style="background: green;width: 100px;height: 100px;padding:20px;" onclick="alert(this.style.background)"></div>
+		</div>
+	</div> -->
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</body>
+</html>

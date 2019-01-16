@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>创建元素3</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var aA = document.getElementsByTagName('a');
+			var oUl = document.getElementById('ul1');
+			for(var i=0;i<aA.length;i++){
+				aA[i].onclick = function(){
+					oUl.removeChild(this.parentNode);
+				};
+			}
+		};
+	</script>
+</head>
+<body>
+	<ul id="ul1">
+		<li>sadasd<a href="javascript:;">删除</a></li>
+		<li>s2434sd<a href="javascript:;">删除</a></li>
+		<li>saadssd<a href="javascript:;">删除</a></li>
+		<li>sa564sd<a href="javascript:;">删除</a></li>
+		<li>s1232sd<a href="javascript:;">删除</a></li>
+	</ul>
+</body>
+</html>

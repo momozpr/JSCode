@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>子节点</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oUl = document.getElementById('ul1');
+			//Chorme:11个子节点（包括文本节点）
+			//IE6—8正常显示5个，IE9显示11个
+			// alert(oUl.childNodes.length);
+			//nodeType=3:表示文本节点
+			//nodeType=1:表示元素节点
+			/*for(var i = 0;i<oUl.childNodes.length;i++){
+				if(oUl.childNodes[i].nodeType == 1){
+					oUl.childNodes[i].style.background='red';
+				}
+			}*/
+			// alert(oUl.children.length);//不包含子节点
+			alert(oUl.parentNode);
+		}
+	</script>
+</head>
+<body>
+	<ul id="ul1">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</body>
+</html>

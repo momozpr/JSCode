@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>js的基础知识</title>
+	<script type="text/javascript">
+		var a = 123;
+		// alert(typeof a);		//number
+
+		var a = 'abc';
+		// alert(typeof a);		//string
+
+		var a = true;
+		// alert(typeof a);        //boolean
+
+
+		var a = function(){
+		}
+		// alert(typeof a);	   		//function
+
+		// var b;
+		// alert(typeof b);			//undefined:两种情况产生undefined
+
+		window.onload = function(){
+			var txt1 = document.getElementById("num1");
+			var txt2 = document.getElementById("num2");
+			var btn = document.getElementById("btn");
+
+			btn.onclick = function(){
+				// alert(typeof txt1.value);
+				alert(parseInt(txt1.value)+parseInt(txt2.value));
+			}
+		}
+
+		
+
+	</script>
+</head>
+<body>
+	<input type="text" name="num1" id="num1" />
+	<input type="text" name="num2" id="num2" />
+	<input type="button" name="btn" id="btn" value="求和" />
+</body>
+</html>

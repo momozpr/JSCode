@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表格搜索</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oTag = document.getElementById('tag1');
+			var oName = document.getElementById('name');
+			var oBtn = document.getElementById('btn');
+
+
+			oBtn.onclick = function(){
+				var oArr = [];
+				for(var i=0;i<oTag.tBodies[0].rows.length;i++){
+					oArr[i] = oTag.tBodies[0].rows[i];
+				}
+				oArr.sort(function(tr1,tr2){
+					var oTr1 = parseInt(tr1.cells[0].innerHTML);
+					var oTr2 = parseInt(tr2.cells[0].innerHTML);
+
+					return oTr1-oTr2;  
+				});
+				for(var i=0;i<oArr.length;i++){
+					oTag.tBodies[0].appendChild(oArr[i]);
+				}
+			};
+		};
+	</script>
+</head>
+<body>
+	<input type="button" id="btn" value="排序">
+	<table border="1px" width="500" id="tag1">
+		<thead>
+			<td>ID</td>
+			<td>姓名</td>
+			<td>年龄</td>
+			<td>操作</td>
+		</thead>
+		<tbody>
+			
+			<tr>
+				<td>6</td>
+				<td>李思</td>
+				<td>26</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>王五</td>
+				<td>25</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>张三</td>
+				<td>23</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>李四</td>
+				<td>24</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>张敏</td>
+				<td>26</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>赵六</td>
+				<td>26</td>
+				<td></td>
+			</tr>
+			
+		</tbody>
+	</table>
+</body>
+</html>

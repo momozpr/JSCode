@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		function getFun(obj,name,fun){
+			if(obj.attachEvent){//IE
+				obj.attachEvent('on'+name,fun)
+			}else{
+				obj.addEventListener(name,fun,false);
+			}
+		}
+		window.onload = function(){
+			var oDiv = document.getElementById('btn1');
+			getFun(oDiv,'click',function(){
+				alert('a');
+			});
+			getFun(oDiv,'click',function(){
+				alert('b');
+			});
+		}
+	</script>
+</head>
+<body>
+	<input type="button" id="btn1" value="触发">
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		div{
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			background: red;
+		}
+	</style>
+	<script type="text/javascript">
+		function getPos(ev){
+			var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+			var scrollLeft = document.documentElement.scrollLeft||document.body.scrollLeft;
+			return {x:ev.clientX+scrollLeft,y:ev.clientY+scrollTop};
+		}
+
+		document.onmousemove = function(ev){
+			var oDiv1 = document.getElementById('div1');
+
+			var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+
+			var oEvent = ev||event;
+			oDiv1.style.left = getPos(oEvent).x+'px';
+			oDiv1.style.top = getPos(oEvent).y+'px';
+		};
+	</script>
+</head>
+<body style="height: 2000px;">
+	<div id="div1"></div>
+</body>
+</html>

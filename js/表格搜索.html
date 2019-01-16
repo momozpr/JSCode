@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表格搜索</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oTag = document.getElementById('tag1');
+			var oName = document.getElementById('name');
+			var oBtn = document.getElementById('btn');
+
+
+			oBtn.onclick = function(){
+				//组合查找:根据空格隔开
+				var oArr = oName.value.toLowerCase().split(' ');
+				for(var i=0;i<oTag.tBodies[0].rows.length;i++){
+					//筛选
+					oTag.tBodies[0].rows[i].style.display = 'none';			
+					for(var j=0;j<oArr.length;j++){
+						//模糊查找
+						if(oTag.tBodies[0].rows[i].cells[1].innerHTML.toLowerCase().search(oArr[j])!=-1){
+							oTag.tBodies[0].rows[i].style.display = 'block';
+						}
+					}
+				}
+			};
+		};
+	</script>
+</head>
+<body>
+	姓名：<input type="text" id="name" />
+	<input type="button" id="btn" value="搜索">
+	<table border="1px" width="500" id="tag1">
+		<thead>
+			<td>ID</td>
+			<td>姓名</td>
+			<td>年龄</td>
+			<td>操作</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>张三</td>
+				<td>23</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>李四</td>
+				<td>24</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>王五</td>
+				<td>25</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>赵六</td>
+				<td>26</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>张敏</td>
+				<td>26</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>李思</td>
+				<td>26</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

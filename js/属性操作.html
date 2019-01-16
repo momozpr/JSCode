@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>属性操作</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oTxt = document.getElementById('txt');
+			var oBtn = document.getElementById('btn');
+			oBtn.onclick = function(){
+				oTxt.setAttribute('value','qwer');
+			};
+
+		};
+	</script>
+</head>
+<body>
+	<input type="text" id="txt" />
+	<input id="btn" type="button" value="获取"> 
+</body>
+</html>

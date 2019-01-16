@@ -1,0 +1,54 @@
+<!-- <!DOCTYPE html> -->
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>全选框</title>
+	<script type="text/javascript">
+		//匿名函数
+		window.onload = function(){
+			var btn1 = document.getElementById("btn1");
+			var btn2 = document.getElementById("btn2");
+			var btn3 = document.getElementById("btn3");
+			var div1 = document.getElementById("div1");
+			var box = div1.getElementsByTagName("input");		
+			btn1.onclick = function(){
+				for(var i = 0;i < box.length;i++){
+					box[i].checked = true;
+				}
+			}
+			btn2.onclick = function(){
+				for(var i = 0;i < box.length;i++){
+					box[i].checked = false;
+				}
+			}
+			btn3.onclick = function(){
+				for(var i = 0;i < box.length;i++){
+					if(box[i].checked == true){
+						box[i].checked = false;
+					}else{
+						box[i].checked = true;
+					}
+					
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<input type="button" id="btn1" value="全选" />
+	<input type="button" id="btn2" value="全不选" />
+	<input type="button" id="btn3" value="反选" /><br/>
+	<div id="div1">
+		<input type="checkbox" name="box" /><br/>
+		<input type="checkbox" name="box" /><br/>
+		<input type="checkbox" name="box" /><br/>
+		<input type="checkbox" name="box" /><br/>
+		<input type="checkbox" name="box" /><br/>
+		<input type="checkbox" name="box" /><br/>
+		<input type="checkbox" name="box" /><br/>
+		<input type="checkbox" name="box" /><br/>
+		<input type="checkbox" name="box" /><br/>
+		<input type="checkbox" name="box" /><br/>
+	</div>
+</body>
+</html>

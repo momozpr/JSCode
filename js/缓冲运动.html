@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>缓冲运行</title>
+	<style type="text/css">
+		#div1{
+			width: 100px;
+			height: 100px;
+			background: red;
+			position: absolute;
+			left: 600px;
+			top: 50px;
+		}
+		#div2{
+			width: 1px;
+			height: 300px;
+			position: absolute;
+			left: 300px;
+			background: black;
+			top: 0px;
+		}
+	</style>
+	<script type="text/javascript">
+		function startMove(){
+			var oDiv1 = document.getElementById('div1');
+			setInterval(function(){
+				var speed = (300-oDiv1.offsetLeft)/10;
+				speed = speed>0?Math.ceil(speed):Math.floor(speed);
+				oDiv1.style.left = oDiv1.offsetLeft+speed+'px';
+			},30);
+		}
+	</script>
+</head>
+<body>
+	<input type="button" value="开始运动" onclick="startMove()" />
+	<div id="div1"></div>
+	<div id="div2"></div>
+</body>
+</html>

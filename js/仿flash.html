@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>仿flash</title>
+	<link rel="stylesheet" type="text/css" href="flash_css.css">
+	<script type="text/javascript" src="startMove.js"></script>
+	<script type="text/javascript">
+		function getByClass(oParent,sClass){
+			var aEle = oParent.getElementsByTagName('*');
+			var result = [];
+
+			for(var i=0;i<aEle.length;i++){
+				if(aEle[i].className == sClass)
+				{
+					result.push(aEle[i]);
+				}
+			}
+			return result;
+		}
+
+		window.onload = function()
+		{
+			var oDiv = document.getElementById('playimages');
+			var oPrev = getByClass(oDiv,'prev')[0];
+			var oNext = getByClass(oDiv,'next')[0];
+			var oLeft = getByClass(oDiv,'mark_left')[0];
+			var oRight = getByClass(oDiv,'mark_right')[0];
+
+			var oDivSmall = getByClass(oDiv,'small_pic')[0];
+			var oUlSmall = oDivSmall.getElementsByTagName('ul')[0];
+			var aLiSmall = oDivSmall.getElementsByTagName('li');
+			var oUlBig = getByClass(oDiv,'big_pic')[0];
+			var aLiBig = oUlBig.getElementsByTagName('li');
+
+			var nowZIndex = 2;
+			var now = 0;
+
+			oUlSmall.style.width = aLiSmall[0].offsetWidth * aLiSmall.length+'px';
+			//左右按钮
+			oPrev.onmouseover = oLeft.onmouseover = function(){
+				startMove(oPrev,'opacity',100);
+			}
+			oPrev.onmouseout = oLeft.onmouseout = function(){
+				startMove(oPrev,'opacity',0);
+			}
+			oNext.onmouseover = oRight.onmouseover = function(){
+				startMove(oNext,'opacity',100);
+			}
+			oNext.onmouseout = oRight.onmouseout = function(){
+				startMove(oNext,'opacity',0);
+			}
+			//大图切换
+			for(var i=0;i<aLiSmall.length;i++){
+				aLiSmall[i].index = i;
+				aLiSmall[i].onclick = function(){
+					if(this.index == now){
+						return;
+					}
+					now = this.index;
+					
+					tab();
+				}
+				aLiSmall[i].onmouseover = function(){
+					startMove(this,'opacity',100);
+				}
+				aLiSmall[i].onmouseout = function(){
+					if(this.index != now){
+						startMove(this,'opacity',60);
+					}
+				}
+				
+			}
+
+			oPrev.onclick = function(){
+				now--;
+				if(now == -1){
+					now = aLiSmall.length-1;
+				}
+				tab();
+			}
+			oNext.onclick = function(){
+				now++;
+				if(now == aLiSmall.length){
+					now = 0;
+				}
+				tab();
+			}
+			function tab(){
+				aLiBig[now].style.zIndex = nowZIndex++;
+				for(var i=0;i<aLiSmall.length;i++){
+					startMove(aLiSmall[i],'opacity',60);
+				}
+				startMove(aLiSmall[now],'opacity',100);
+				aLiBig[now].style.height = 0;
+				startMove(aLiBig[now],'height',320);
+				
+				if(now == 0){
+					startMove(oUlSmall,'left',0);
+				}
+				else{
+					if(now == aLiSmall.length-1){
+						startMove(oUlSmall,'left',-(now-2)*aLiSmall[0].offsetWidth);
+					}
+					else{
+						startMove(oUlSmall,'left',-(now-1)*aLiSmall[0].offsetWidth);
+					}
+				}
+			}
+			var timer = setInterval(oNext.onclick,2000);
+			oDiv.onmouseover = function(){
+				clearInterval(timer);
+			}
+			oDiv.onmouseout = function(){
+				timer = setInterval(oNext.onclick,2000);
+			}
+		};
+
+	</script>
+</head>
+<body>
+	<div id="playimages" class="play">
+		<ul class="big_pic">
+			<div class="prev"></div>
+			<div class="next"></div>
+
+			<div class="text">加载图片说明</div>
+			<div class="length">计算图片数量</div>
+
+			<a href="javascript:;" class="mark_left"></a>
+			<a href="javascript:;" class="mark_right"></a>
+			<div class="bg"></div>
+			
+
+			<li style="z-index: 1"><img src="img/500_313/01.jpg" /></li>
+			<li><img src="img/500_313/02.jpg" /></li>
+			<li><img src="img/500_313/03.jpg" /></li>
+			<li><img src="img/500_313/04.jpg" /></li>
+			<li><img src="img/500_313/05.jpg" /></li>
+			<li><img src="img/500_313/06.jpg" /></li>
+		</ul>
+		<div class="small_pic">
+			<ul style="width: 390px;">
+				<li style="filter: 100; opacity: 1;" >
+					<img src="img/500_313/01.jpg">
+				</li>
+				<li><img src="img/500_313/02.jpg" /></li>
+				<li><img src="img/500_313/03.jpg" /></li>
+				<li><img src="img/500_313/04.jpg" /></li>
+				<li><img src="img/500_313/05.jpg" /></li>
+				<li><img src="img/500_313/06.jpg" /></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

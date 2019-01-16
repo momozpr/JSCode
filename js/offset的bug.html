@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>offsetWidth的bug</title>
+	<style type="text/css">
+		#div1{
+			background: yellow;
+			height: 100px;
+			border: 1px solid black;
+		}
+	</style>
+	<script type="text/javascript">
+		function getStyle(obj,name){
+			if(obj.currentStyle){
+				return obj.currentStyle[name];
+			}else{
+				return getComputedStyle(obj,false)[name];
+			}
+		}
+		setInterval(function(){
+			var oDiv = document.getElementById('div1');
+			//添加了border，它的offsetWidth每一次都在变大：+padding+border+margin
+			oDiv.style.width = parseInt(getStyle(oDiv,'width'))- 1 + 'px';
+		},30);
+	</script>
+</head>
+<body>
+	<div id="div1" style="width: 200px;"></div>
+</body>
+</html>

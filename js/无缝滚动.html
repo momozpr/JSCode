@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>无缝滚动</title>
+	<style type="text/css">
+		#div1{
+			width: 200px;
+			height: 200px;
+			background: red;
+			position: absolute;
+			left: 0px;
+			top: 150px;
+			margin: 50px;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function(){
+			setInterval(function(){
+				var oDiv = document.getElementById('div1');
+				oDiv.style.left = oDiv.offsetLeft+10+'px';
+			},30);
+		}
+	</script>
+</head>
+<body>
+	<!-- offsetLeft可以综合考虑所有影响因素left+margin;还有offsetTop,offsetWidth,offsetHeight -->
+	<div id="div1"></div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>父节点</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oUl = document.getElementById('ul1');
+			// alert(oUl.parentNode);
+			var aA = document.getElementsByTagName('a');
+			for(var i=0;i<aA.length;i++){
+				aA[i].onclick = function(){
+					this.parentNode.style.display = 'none';
+				};
+			}
+		}
+	</script>
+</head>
+<body>
+	<ul id="ul1">
+		<li>dsfs<a href="javascript:;">隐藏</a></li>
+		<li>ds32fs<a href="javascript:;">隐藏</a></li>
+		<li>dsfs43<a href="javascript:;">隐藏</a></li>
+		<li>ds23fs<a href="javascript:;">隐藏</a></li>
+		<li>dsfs42<a href="javascript:;">隐藏</a></li>
+		<li>dsf22s<a href="javascript:;">隐藏</a></li>
+	</ul>
+</body>
+</html>

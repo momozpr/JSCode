@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>非行间样式的获取</title>
+	<style type="text/css">
+		#div1{
+			width: 200px;
+			height: 200px;
+			background: green;
+		}
+	</style>
+	<script type="text/javascript">
+		function getStyle(obj,name){
+			if(obj.currentStyle){
+				return obj.currentStyle[name];
+			}else{
+				return getComputedStyle(obj,false)[name];
+			}
+		};
+		window.onload = function(){
+			var oDiv = document.getElementById("div1");
+			// alert(oDiv.currentStyle.width);//IE
+			// alert(getComputedStyle(oDiv,false).width);//FF和Chrome
+			// alert(oDiv.currentStyle);
+			// alert(getStyle(oDiv,'width'));
+			alert(getStyle(oDiv,'backgroundColor'));//非行间样式只能取单一样式，不能取复合样式
+
+		}
+
+		
+	</script>
+</head>
+<body>
+	<div id="div1"></div>
+</body>
+</html>

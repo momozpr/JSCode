@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数组的操作</title>
+	<script type="text/javascript">
+		var arr = [1,2,3,4,5,6];
+		// arr.length = 5;//长度可以设置,变长则为“”,变短则删除末尾的
+		// arr.push(4);//往尾部添加
+		// arr.pop();//往尾部减少
+		// arr.shift();//往头部减少
+		// arr.unshift(5);//往尾部增加
+		// arr.splice(2,2);//第二个元素起删除2个
+		// arr.splice(2,0,'a','b','c');//插入
+		// arr.splice(2,2,'a','b');//替换
+		// var arr1 = ['a','b','c','d','e'];
+		// alert(arr.concat(arr1));
+		// alert(arr.join('- -'));
+		// alert(arr);
+		//排序:字符串
+		var arr1 = ['fight','bus','cat','zoo','jean'];
+		// arr1.sort();
+		//非字符串需要重写
+		var arr2 = [112,23,42,667,14];
+		arr2.sort(function(n1,n2){
+			return n1-n2;//根据结果区别两者大小
+		});
+		alert(arr2);
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

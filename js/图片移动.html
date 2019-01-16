@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片快移</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		#div1{
+			width: 960px;
+			height: 240px;
+			margin: 100px auto;
+			position: relative;
+			background: red;
+			overflow: hidden;
+		}
+		#div1 ul{
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		#div1 ul li {
+			float: left;
+			width: 240px;
+			height: 240px;
+			list-style: none;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oDiv = document.getElementById('div1');
+			var oUl = oDiv.getElementsByTagName('ul')[0];
+			var aLi = oUl.getElementsByTagName('li');
+			var speed ;
+
+			oUl.innerHTML = oUl.innerHTML + oUl.innerHTML;
+			oUl.style.width = aLi[0].offsetWidth*aLi.length+'px';
+
+			function move(){
+				if(oUl.offsetLeft < -oUl.offsetWidth/2){
+					oUl.style.left = 0;
+				}
+				if(oUl.offsetLeft > 0){
+					oUl.style.left = -oUl.offsetWidth/2+'px';
+				}
+				oUl.style.left = oUl.offsetLeft+speed+'px';
+			}
+
+			var timer = setInterval(move,30);
+
+			oDiv.onmouseover = function(){
+				clearInterval(timer);
+			};
+			oDiv.onmouseout = function(){
+			    timer = setInterval(move,30);
+			};
+			document.getElementsByTagName('a')[0].onclick = function(){
+				speed = -2;
+			};
+			document.getElementsByTagName('a')[1].onclick = function(){
+				speed = 2;
+			};
+		};
+	</script>
+</head>
+<body>
+	<a href="javascript:;">向左</a>
+	<a href="javascript:;">向右</a>
+	<div id="div1">
+		<ul>
+			<li><img src="img/01.gif" /></li>
+			<li><img src="img/02.gif" /></li>
+			<li><img src="img/03.gif" /></li>
+			<li><img src="img/04.gif" /></li>
+		</ul>
+	</div>
+</body>
+</html>
