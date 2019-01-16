@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		function appendText(){
+			//使用html的方式
+			var txt1 = "<p>文本1</p>";
+			//使用jq
+			var txt2 = $("<p></p>").text('文本2');
+			//使用DOM创建文本
+			var txt3 = document.createElement("p");
+			txt3.innerHTML='文本3';
+			$('body').append(txt1,txt2,txt3);
+		}
+		//使用函数添加
+		$(function(){
+			$('button').click(function(){
+				$('body').append(function(n){
+					return '<p>添加新文本</p>';
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<button>追加文本</button>
+</body>
+</html>

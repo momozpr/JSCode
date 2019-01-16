@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#btn1').click(function(){
+				$('#text1').text('Hello World!');
+			});
+
+			$('#btn2').click(function(){
+				$('#text2').html('<b>Hello World!</b>');
+			});
+
+			$('#btn3').click(function(){
+				// $('#text3').val('Hello World!');
+				// 回调函数有两个参数：被选元素列表中当前元素的下标，以及原始（旧的）值。
+				// 然后以函数新值返回您希望使用的字符串。
+				$(".txt").html(function(i,origText){ 
+   				return "Old html: " + origText + " New html: Hello <b>world!</b>(index: " + i + ")"; 
+  }); 
+			});
+		});
+	</script>
+</head>
+<body>
+	<p id="text1" class="txt">我是第一段文字</p>
+	<p id="text2" class="txt">我是第二段文字</p>
+	<p>我是第三段文字</p>
+	<input type="text" id="text3" value="我才是第三段文字" /><br/>
+	<button id="btn1">按钮一</button>
+	<button id="btn2">按钮二</button>
+	<button id="btn3">按钮三</button>
+</body>
+</html>

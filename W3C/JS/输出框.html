@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>输出框</title>
+	<script type="text/javascript">
+		function show_confirm(){
+			var result = confirm("Press a button");
+			if(result){
+				alert("you press ok")
+			}else{
+				alert("you press cancle");
+			}
+		}
+	</script>
+</head>
+<body>
+	<input type="button" onclick="show_confirm()" value="我带有确认按钮">
+</body>
+</html>

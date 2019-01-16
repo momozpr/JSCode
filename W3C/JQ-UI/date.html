@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link href="jquery-ui.css" rel="stylesheet">
+	<script src="external/jquery/jquery.js"></script>
+	<script src="jquery-ui.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#date').datepicker();
+			$('#progressbar').progressbar({value:40});
+			$('#progressbar').progressbar('value',90).addClass('almost-done');
+			$('#progressbar').progressbar('disable');//调用相当于设置为true
+			$('#progressbar').progressbar('enable');//与上面相反
+			// $('#progressbar').progressbar('destroy');//销毁
+			// alert($('#progressbar').progressbar('widget'));
+			/*$('#progressbar').bind('progressbarchange',function(){
+				alert('The value has changed!');
+			});*///被修改时的触发事件
+			//change回调相当于上述触发事件
+			$("#progressbar").progressbar({
+				change:function(){
+					alert("The value has changed!");
+				}
+			});
+			$('#progressbar').click(function(){
+				$('#progressbar').progressbar({value:40});
+				alert('我改变了控件');
+			})
+		});
+	</script>
+</head>
+<body>
+	<input type="text" name="date" id="date">
+	<div id="progressbar"></div>
+</body>
+</html>

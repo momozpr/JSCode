@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>改变HTML输出流</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			// document.write(Date());//绝不要使用在文档加载之后使用 document.write()。这会覆盖该文档。
+			document.getElementById("image").src="gif/2.gif";
+		};
+
+	</script>
+</head>
+<body>
+	<img src="gif/1.gif" id="image">
+</body>
+</html>

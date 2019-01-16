@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>添加删除节点</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var para = document.createElement("p");
+			var node = document.createTextNode("这是新的段落");
+			para.appendChild(node);
+
+			var element = document.getElementById('div1');
+			//添加节点
+			element.appendChild(para);
+			var child = document.getElementById('p1');
+			//删除节点
+			// element.removeChild(child);
+			//常用以下的方式
+			child.parentNode.removeChild(child);
+		};
+	</script>
+</head>
+<body>
+	<div id="div1">
+		<p id="p1">段落一</p>
+		<p id="p2">段落二</p>
+	</div>
+</body>
+</html>

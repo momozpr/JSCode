@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			//使用函数添加css
+			$('button').click(function(){
+				$('p').addClass(function(n){
+					return "par_"+n;
+				})
+			})
+		})
+	</script>
+	<style type="text/css">
+		.par_0{
+			color: red;
+		}
+		.par_1{
+			color:blue;
+		}
+	</style>
+</head>
+<body>
+	<p>我是第一段</p>
+	<p>我是第二段</p>
+	<button>添加样式</button>
+</body>
+</html>

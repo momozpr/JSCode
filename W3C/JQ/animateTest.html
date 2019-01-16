@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#btn1").click(function(){
+				var img = $('img');
+				//jq提供对动画的队列功能
+				img.animate({height:'100px',opacity:'0.4'},5000);
+				img.animate({width:'100px',opacity:'0.8'},5000);
+				img.animate({height:'300px',opacity:'0.4'},5000);
+				img.animate({width:'300px',opacity:'0.8'},5000);
+			});
+			$("#btn2").click(function(){
+				$("img").stop();
+			});
+			$("#btn3").click(function(){
+				$("img").stop(true);
+			});
+			$("#btn4").click(function(){
+				$("img").stop(true,true);
+			});
+
+		});
+	</script>
+</head>
+<body>
+	<input type="button" id="btn1" value="动画效果" />
+	<input type="button" id="btn2" value="停止当前动画效果" />
+	<input type="button" id="btn3" value="停止所有动画效果" />
+	<input type="button" id="btn4" value="停止直接完成动画效果" />
+	<img src="../gif/1.gif" style="position: absolute;" />
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-1.8.3.min.js" /></script>
+    <script>
+        $(document).ready(function(){
+            $("button").dblclick(function(){//dbl是双击
+                // $("p").hide();
+                //CSS选择器
+                // $('p').css('background-color','red');
+                //隐藏第一个段落
+                // $('p:first').hide();
+                //隐藏最后一个
+                // $('p:last').hide();
+                //点击隐藏每个ul的第一个li
+                // $('ul li:first-child').hide();
+
+                //点击隐藏第一个ul的第一个li
+                // $('ul li:first').hide();
+
+                //隐藏button 和input 中type="button"的元素
+                $(':button').hide();
+
+            });
+        });
+    </script>
+</head>
+<body>
+    <p>我是第一段</p>
+    <p>我是第二段</p>
+    <p>我是第三段</p>
+    <button>点击我</button>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <ul>
+        <li>Coffee</li>
+        <li>tea</li>
+        <li>coco</li>
+    </ul>
+    <ul>
+        <li>Coffee</li>
+        <li>tea</li>
+        <li>coco</li>
+    </ul>
+</body>
+</html>

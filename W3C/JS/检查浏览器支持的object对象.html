@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		function loadXMLDoc(){
+				//创建内建对象
+			var xmlhttp;
+			if(window.XMLHttpRequest){
+				xmlhttp = new XMLHttpRequest();
+			}
+			else{
+				//IE5,7,8支持
+				xmlhttp = new ActiveXObject("Microsoft.XMLHttp");
+			}
+			// alert(xmlhttp);
+			xmlhttp.onreadystatechange = function(){
+				//4：响应已完成；您可以获取并使用服务器的响应了。200——交易成功 
+				if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+					document.getElementById('myDiv').innerHTML = xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open("GET","/ajax/demo_get2.asp?fname=Bill&lname=Gates",true);
+			xmlhttp.send();
+		}
+		
+	</script>
+	
+</head>
+<body>
+	<h2>AJAX</h2>
+	<button type="button" onclick="loadXMLDoc()">请求数据</button>
+	<div id="myDiv"></div>
+</body>
+</html>

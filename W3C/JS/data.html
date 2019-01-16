@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Date的实践</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			// var myDate = new Date();
+			// //会自动进行跨越月份和年份的换算
+			// myDate.setDate(myDate.getDate()+5);
+			// alert(myDate);
+
+			//比较日期
+			var myDate = new Date();
+			//月份比设置的大1，因为月份是0-11 
+			myDate.setFullYear(2008,8,9);
+			alert(myDate);
+			var today = new Date();
+			if(myDate>today){
+				alert("Today is before 9th Sept 2008");
+			}else{
+				alert("Today is after 9th Sept 2008");
+			}
+
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>window对象</title>
+	<script type="text/javascript">
+		/*window.onload = function(){
+			var w = window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
+			var h = window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight;
+			document.write("窗口的宽："+w+"<br/>窗口的高："+h);
+			document.write("<br/>可用宽度：" + screen.availWidth);	
+			document.write("<br/>当前页面的URL：" + location.href);	
+			document.write("<br/>当前URL的路径名：" + location.pathname);	
+
+		}*/
+		function newDoc(){
+			window.location.assign("http://www.w3school.com.cn");
+		}
+		
+	</script>
+</head>
+<body>
+	<input type="button" value="加载新文档" onclick="newDoc()">
+</body>
+</html>

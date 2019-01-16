@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#btn1").click(function(){
+				//淡入已经隐藏的元素
+				$("img").fadeIn(1000);
+				$("img").fadeOut(1000);
+				// $("img").fadeToggle(1000);
+				//让颜色变淡：犹如隐身的效果
+				// $("img").fadeTo(1000,0.15);
+
+			});
+		});
+	</script>
+</head>
+<body>
+	<input type="button" id="btn1" value="淡入/淡出" />
+	<img src="../gif/1.gif" style="display: none;" />
+</body>
+</html>

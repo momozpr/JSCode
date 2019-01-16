@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>正则表达式</title>
+	<script type="text/javascript">
+		window.onload = function(){
+
+			var patt1 = new RegExp("e");
+			//检查是否含有该正则表达式中的字符
+			document.write(patt1.test("The best things in life are free")+"<br/>");
+			//返回检索的指定值，没有则返回Null
+			document.write(patt1.exec("The best things in life are free")+"<br/>");
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

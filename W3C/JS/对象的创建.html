@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>对象的创建</title>
+	<script type="text/javascript">
+		//创建直接的实例
+		var person = new Object();
+		person.firstname = "Bill";
+		person.lastname = "Gates";
+		person.age = 56;
+		person.eyecolor = "blue";
+		document.write(person.firstname+" is "+person.age+" years old.");
+		//另一种方法
+		person1 = {firstname:"John","age":50};
+		document.write(person1.firstname+" is "+person1.age+" years old.");
+		//使用对象构造器
+		function person(firstname,lastname,age,eyecolor){
+			this.firstname = firstname;
+			this.lastname = lastname;
+			this.age = age;
+			this.eyecolor = eyecolor;
+		}
+		window.onload = function(){
+			
+			myFather = new person("Mary","Gates",23,"blue");
+			document.write(myFather.firstname+" is "+myFather.age+" years old.");
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

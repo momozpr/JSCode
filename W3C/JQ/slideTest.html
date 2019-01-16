@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#btn1").click(function(){
+				//拉下拉上：有点像弹来弹去
+				// $("img").slideDown("slow");
+				// $("img").slideUp("slow");
+				$("img").slideToggle("slow");
+			});
+		});
+	</script>
+</head>
+<body>
+	<input type="button" id="btn1" value="淡入/淡出" />
+	<img src="../gif/1.gif" style="display: none;" />
+</body>
+</html>

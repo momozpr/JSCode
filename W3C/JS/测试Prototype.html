@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src=""></script>
+	<script type="text/javascript">
+		function myFunction(){
+			$('h01').writeAttribute('style','color:yellow').insert('Hello Prototype!');
+		}
+		Event.observe(window,'load',myFunction);
+	</script>
+</head>
+<body>
+	<h1 id="h01"></h1>
+</body>
+</html>

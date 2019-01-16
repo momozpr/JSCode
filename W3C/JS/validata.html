@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>验证表单信息</title>
+	<script type="text/javascript">
+		function validate_required(field,alerttxt){
+			with(field){
+				if(value==null||value==""){
+					alert(alerttxt);
+					return false;
+				}else{
+					return true;
+				}
+			}
+		}
+		//检查邮箱的输入:输入的数据必须包含@符号和"."。同时@不可以是邮件地址的首字符，并且@之后至少需要一个"."。
+		function validate_email(field,alerttxt){
+			with(field){
+				apos = value.indexOf("@");
+				dotpos=value.lastIndexOf(".");
+				if(apos<1||dotpos-apos<2){
+					alert(alerttxt);
+					return false;
+				}else{
+					return true;
+				}
+			}
+		}
+
+		function validate_form(thisform){
+			with(thisform){
+				if(validate_required(email,"Email must be filled out!")==false){
+					email.focus();
+					return false;
+				}
+				if(validate_email(email,"Not a valid e-mail address!")==false){
+					email.focus();
+					return false;
+				}
+			}
+		}
+
+		
+	</script>
+</head>
+<body>
+	<form action="#" onsubmit="return validate_form(this)" method="post">
+		Email:<input type="text" name="email" size="30">
+		<input type="submit" value="Submit">
+	</form>
+</body>
+</html>

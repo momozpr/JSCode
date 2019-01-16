@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>时钟</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			setTimeout('startTime()',500);
+		}
+		function startTime(){
+			var today = new Date();
+			var h = today.getHours();
+			var m = today.getMinutes();
+			var s = today.getSeconds();
+			document.getElementById('txt').innerHTML=checkTime(h)+":"+checkTime(m)+":"+checkTime(s);
+			t = setTimeout('startTime()',500);
+		}
+		function checkTime(i){
+			if(i<10){
+				i="0"+i;
+			}
+			return i;
+		}
+	</script>
+</head>
+<body>
+	<div id = "txt"></div>
+</body>
+</html>

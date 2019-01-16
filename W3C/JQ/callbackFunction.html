@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#btn1").click(function(){
+				var img = $('img');
+				//回调函数
+				img.animate({height:'100px',opacity:'0.4'},5000,function(){
+					alert("我会等动画完成后再实现");
+				});
+				alert("我不会等动画完成");
+			});
+			
+
+		});
+	</script>
+</head>
+<body>
+	<input type="button" id="btn1" value="动画效果" />
+	<img src="../gif/1.gif" style="position: absolute;" />
+</body>
+</html>
