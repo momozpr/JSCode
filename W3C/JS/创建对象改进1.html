@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		function createPerson(name,age){
+			//改进不用new的问题
+			this.name = name;
+			this.age = age;
+
+			this.showName = showName(this.name);
+			this.showAge = showAge(this.age);
+
+		}
+
+		function showName(name){
+			alert("本对象的名字为："+name);
+		}
+		function showAge(age){
+			alert("本对象的年龄为："+age);
+		}
+
+		window.onload = function(){
+			var a = new createPerson("Mary",14);
+			a.showName();
+			a.showAge();
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

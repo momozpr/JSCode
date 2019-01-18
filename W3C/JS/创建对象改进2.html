@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		function CreatePerson(name,age){
+			//改进不用new的问题
+			this.name = name;
+			this.age = age;
+
+		}
+
+		/*function showName(name){
+			alert("本对象的名字为："+name);
+		}
+		function showAge(age){
+			alert("本对象的年龄为："+age);
+		}*/
+
+
+		CreatePerson.prototype.showName = function(){
+			alert("本对象的名字为："+this.name);
+		};
+		CreatePerson.prototype.showAge = function(){
+			alert("本对象的年龄为："+this.age);
+		}
+
+		window.onload = function(){
+			var a = new CreatePerson("Mary",14);
+			var b = new CreatePerson("John",12);
+			a.showName();
+			a.showAge();
+			alert(a.showName == b.showName);
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

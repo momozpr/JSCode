@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		function createPerson(name,age){
+			//原料
+			var obj = new Object();//创建一个空的对象
+
+			//加工
+			obj.name = name;
+			obj.age = age;
+
+			obj.showName = function(){
+				alert("本对象的名字为："+this.name);
+			}
+			obj.showAge = function(){
+				alert("本对象的年龄为："+this.age);
+			}
+
+			return obj;
+
+		}
+
+		window.onload = function(){
+			var a = createPerson("Mary",14);
+			a.showName();
+			a.showAge();
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
