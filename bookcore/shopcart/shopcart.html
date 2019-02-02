@@ -63,8 +63,12 @@
             
 
             //小计价格函数getSubTotal
-            function getSubTotal(){
-
+            function getSubTotal(tr){
+            	var td = tr.cells;
+            	var price = parseFloat(td[2].innerHTML);
+            	var count = parseInt(tr.getElementsByTagName('input')[1].value);
+            	var SubTotal = parseFloat(price * count);
+            	td[4].innerHTML = SubTotal;
             }
             
             
@@ -126,20 +130,79 @@
             for (var i = 0; i < tr.length; i++) {
 
                 //表格每一行上事件代理
-                
+                tr[i].onclick = function(e){
+                	e = e||window.event;
+                	var el = e.srcElement;
+                	var cls = el.className;
+                	var input = this.getElementsByTagName('input')[1];
+                	var reduce = this.getElementsByTagName('span')[1];
+                	var val = parseInt(input.value);
+                	switch(cls){
+                		case 'add':
+                			input.value = val + 1;
+                			reduce.innerHTML = '-';
+                			getSubTotal(this);
+                			break;
+                		case 'reduce':
+                			if(val>1){
+                				input.value = val - 1;
+                			}else{
+                				reduce.innerHTML = '';
+                			}
+                			getSubTotal(this);
+                			break;
+                		case 'delete':
+                			var conf = confirm('确定删除吗？');
+                			if(conf){
+                				this.parentNode.removeChild(this);
+                			}
+                			break;
+                		default:
+                			break;
+                	}
+                	getTotal();
+                }
                 
                 
                 
 
                 //绑定数量输入框事件，实时更新小计价格
-                
+                tr[i].getElementsByTagName('input')[1].onkeyup = function(){
+                	var val = parseInt(this.value);
+                	var tr = this.parentNode.parentNode;
+                	var reduce = tr.getElementsByTagName('span')[1];
+                	if(val<1 || isNaN(val)){
+                		val = 1;
+                	}
+                	this.value = val;
+                	if(val <= 1){
+                		reduce.innerHTML = '';
+                	}else{
+                		reduce.innerHTML = '-';
+                	}
+                	getSubTotal(tr);
+                	getTotal();
+                }
                 
                 
                 
             }
 
             // 绑定删除按钮事件， 删除已选项
-            
+            deleteAll.onclick = function(){
+            	if(selectedTotal.innerHTML != '0'){
+            		var conf = confirm('确定删除吗？');
+            		if(conf){
+	            		for (var i = 0; i < tr.length; i++) {
+	            			var input = tr[i].getElementsByTagName('input')[0];
+	            			if(input.checked){
+	            				tr[i].parentNode.removeChild(tr[i]);
+	            				i--;
+	            			}
+	            		}
+	            	}
+            	}
+            }
             
             
             
