@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		function square(num){
+			// total = num * num;//当不进行var定义时，若是有全局变量会影响全局变量
+			var total = num * num;
+			return total;
+		}
+		var total = 50;
+		var number = square(20);
+		alert(total);//total变为400
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

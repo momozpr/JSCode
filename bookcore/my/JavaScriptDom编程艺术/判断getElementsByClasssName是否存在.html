@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="js/FunctionGetElementsByClassName.js"></script>
+
+</head>
+<body>
+	<div id="div1">
+		<span class="do4 do1 do2"></span>
+		<span class="do3 do1"></span>
+		<span class="do"></span>
+	</div>
+</body>
+<script type="text/javascript">
+		if(document.getElementsByClassName){
+			alert(typeof(document.getElementsByClassName));
+			alert("该方法存在");
+		}else{
+			var ele = document.getElementById("div1");
+			// alert(ele);
+			var len = getElementsByClassName(ele,"do1").length;
+			alert(len);
+		}
+	</script>
+</html>

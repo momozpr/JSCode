@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript">
+        window.onload = function () {
+            var cartTable = document.getElementById('cartTable');
+            var tr = cartTable.children[1].rows;
+            var checkInputs = document.getElementsByClassName('check');
+            var checkAllInputs = document.getElementsByClassName('check-all');
+            var selectedTotal = document.getElementById('selectedTotal');
+            var priceTotal = document.getElementById('priceTotal');
+            var selected = document.getElementById('selected');
+            var foot = document.getElementById('foot');
+            var selectedViewList = document.getElementById('selectedViewList');
+            var deleteAll = document.getElementById('deleteAll');
+
+            // 扩展document.getElementsByClassName方法
+            //为了兼容低版本的浏览器没有该方法适用于有多个类名
+            if (!document.getElementsByClassName) {
+                document.getElementsByClassName = function (cls) {
+                    var ret = [];
+                    var els = document.getElementsByTagName('*');
+                    for (var i = 0, len = els.length; i < len; i++) {
+
+                        if (els[i].className.indexOf(cls + ' ') >=0 || els[i].className.indexOf(' ' + cls + ' ') >=0 || els[i].className.indexOf(' ' + cls) >=0) {
+                            ret.push(els[i]);
+                        }
+                    }
+                    return ret;
+                }
+            }
+            
+            
+
+            //计算函数getTotal，计算总价格，数目，并更新已选弹层的HTML
+            function getTotal(){
+                var selected = 0;
+                var price = 0;
+                var HTMLsrc = "";
+                for (var i = 0; i < tr.length; i++) {
+                    if(tr[i].getElementsByTagName("input")[0].checked){
+                            tr[i].style.background='lightblue';
+                            selected += parseInt(tr[i].getElementsByTagName('input')[1].value);
+                            price += parseFloat(tr[i].cells[4].innerHTML);
+                            HTMLsrc +=  '<div><img src="'+tr[i].getElementsByTagName('img')[0].src+'"><span class="del" index="'+i+'">取消选择</span></div>';
+                    }else{
+                        tr[i].style.background='';
+                    }
+                }
+                selectedTotal.innerHTML = selected;
+                priceTotal.innerHTML = price.toFixed(2);//保留2位小数
+                selectedViewList.innerHTML = HTMLsrc;
+
+                if(selected == 0){
+                    foot.className = "foot";
+                }
+
+            }
+            
+            
+
+            //小计价格函数getSubTotal
+            function getSubTotal(){
+
+            }
+            
+            
+            
+
+            //绑定勾选框事件
+            for(var i=0;i<checkInputs.length;i++){
+                checkInputs[i].onclick = function(){
+                    if(this.className === "check-all check"){
+                        for (var i = 0; i < checkInputs.length; i++) {
+                            checkInputs[i].checked = this.checked;
+                        }
+                    }
+                    if(this.checked == false){
+                        for (var k = 0; k < checkAllInputs.length; k++) {
+                            checkAllInputs[k].checked = false;
+                        }
+                    }
+                    getTotal();
+                }
+                
+            }
+            
+            
+            
+            
+
+            //绑定已选按钮事件，用于显示或者隐藏浮层
+            selected.onclick = function(){
+                if(foot.className === 'foot'){
+                    if(selectedTotal.innerHTML != 0)
+                    foot.className = 'foot show';
+                }
+                else{
+                    foot.className = 'foot';
+                }
+            }
+            
+            
+            
+            
+
+            //在已选弹层上事件代理，用于删除已选
+            selectedViewList.onclick = function(e){
+                var e = e||window.event;
+                var el = e.srcElement;
+                if(el.className == 'del'){
+                    var index = el.getAttribute('index');
+                    var input = tr[index].getElementsByTagName('input')[0];
+                    input.checked = false;
+                    input.onclick();
+                }
+            }
+            
+            
+            
+           
+
+            for (var i = 0; i < tr.length; i++) {
+
+                //表格每一行上事件代理
+                
+                
+                
+                
+
+                //绑定数量输入框事件，实时更新小计价格
+                
+                
+                
+                
+            }
+
+            // 绑定删除按钮事件， 删除已选项
+            
+            
+            
+            
+
+            // 默认选择所有商品
+            
+            checkAllInputs[0].onclick();
+            
+            
+            
+            
+            
+        }
+    </script>
+</head>
+<body>
+<table id="cartTable">
+    <thead>
+    <tr>
+        <th><label><input class="check-all check" type="checkbox"/>&nbsp;全选</label></th>
+        <th>商品</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>小计</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
+        <td class="goods"><img src="http://img.mukewang.com/53b4c12b0001b0a702200220.jpg" alt=""/><span>Casio/卡西欧 EX-TR350</span></td>
+        <td class="price">5999.88</td>
+        <td class="count">
+            <span class="reduce"></span>
+            <input class="count-input" type="text" value="1"/>
+            <span class="add">+</span></td>
+        <td class="subtotal">5999.88</td>
+        <td class="operation"><span class="delete">删除</span></td>
+    </tr>
+    <tr>
+        <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
+        <td class="goods"><img src="http://img.mukewang.com/53b4c149000144b202200220.jpg" alt=""/><span>Canon/佳能 PowerShot SX50 HS</span></td>
+        <td class="price">3888.50</td>
+        <td class="count"><span class="reduce"></span><input class="count-input" type="text" value="1"/><span class="add">+</span></td>
+        <td class="subtotal">3888.50</td>
+        <td class="operation"><span class="delete">删除</span></td>
+    </tr>
+    <tr>
+        <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
+        <td class="goods"><img src="http://img.mukewang.com/53b4c16000011dfd02200220.jpg" alt=""/><span>Sony/索尼 DSC-WX300</span></td>
+        <td class="price">1428.50</td>
+        <td class="count"><span class="reduce"></span><input class="count-input" type="text" value="1"/><span class="add">+</span></td>
+        <td class="subtotal">1428.50</td>
+        <td class="operation"><span class="delete">删除</span></td>
+    </tr>
+    <tr>
+        <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
+        <td class="goods"><img src="http://img.mukewang.com/53b4c12b0001b0a702200220.jpg" alt=""/><span>Fujifilm/富士 instax mini 25</span></td>
+        <td class="price">640.60</td>
+        <td class="count"><span class="reduce"></span><input class="count-input" type="text" value="1"/><span class="add">+</span></td>
+        <td class="subtotal">640.60</td>
+        <td class="operation"><span class="delete">删除</span></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="foot" id="foot">
+    <label class="fl select-all"><input type="checkbox" class="check-all check"/>&nbsp;全选</label>
+    <a class="fl delete" id="deleteAll" href="javascript:;">删除</a>
+    <div class="fr closing">结 算</div>
+    <div class="fr total">合计：￥<span id="priceTotal">0.00</span></div>
+    <div class="fr selected" id="selected">已选商品
+        <span id="selectedTotal">0</span>件
+        <span class="arrow up">︽</span>
+        <span class="arrow down">︾</span>
+    </div>
+    <div class="selected-view">
+        <div id="selectedViewList" class="clearfix">
+            <!--<div><img src="images/1.jpg"><span>取消选择</span></div>-->
+        </div>
+        <span class="arrow">◆<span>◆</span></span>
+    </div>
+</div>
+</body>
+</html>
