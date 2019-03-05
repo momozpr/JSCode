@@ -2,9 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
 <body>
-$END$
+    <canvas id="canvas" style="display:block;margin:50px auto;"></canvas>
+    <script>
+        var ball = {x:512,y:100,r:20,g:2,vx:-4,vy:0,color:"#005588"};
+        window.onload =function(){
+            var canvas = document.getElementById('canvas');
+            //使用2d画图
+            var context = canvas.getContext('2d');
+            canvas.width = 1024;
+            canvas.height = 768;
+            setInterval(
+                function () {
+                    render(context);
+                    update();
+                },
+                50
+            );
+        }
+
+        function render(cxt) {
+            cxt.clearRect(0,0,cxt.canvas.width,cxt.canvas.height);
+            cxt.fillStyle = ball.color;
+            cxt.beginPath();
+            //画球
+            cxt.arc(ball.x,ball.y,ball.r,0,2*Math.PI);
+            cxt.closePath();
+            cxt.fill();
+            cxt.stroke();
+        }
+
+        function update() {
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+            ball.vy += ball.g;//y轴方向有重力加速度
+            if(ball.y >= 768-ball.r){//当小球掉到地面了，反弹
+                ball.y = 768-ball.r;
+                ball.vy = -ball.vy*0.5;//添加点摩擦力
+            }
+        }
+    </script>
 </body>
 </html>
