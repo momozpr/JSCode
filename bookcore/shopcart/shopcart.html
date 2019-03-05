@@ -32,9 +32,6 @@
                     return ret;
                 }
             }
-            
-            
-
             //计算函数getTotal，计算总价格，数目，并更新已选弹层的HTML
             function getTotal(){
                 var selected = 0;
@@ -59,9 +56,6 @@
                 }
 
             }
-            
-            
-
             //小计价格函数getSubTotal
             function getSubTotal(tr){
             	var td = tr.cells;
@@ -70,10 +64,6 @@
             	var SubTotal = parseFloat(price * count);
             	td[4].innerHTML = SubTotal;
             }
-            
-            
-            
-
             //绑定勾选框事件
             for(var i=0;i<checkInputs.length;i++){
                 checkInputs[i].onclick = function(){
@@ -91,11 +81,6 @@
                 }
                 
             }
-            
-            
-            
-            
-
             //绑定已选按钮事件，用于显示或者隐藏浮层
             selected.onclick = function(){
                 if(foot.className === 'foot'){
@@ -106,11 +91,6 @@
                     foot.className = 'foot';
                 }
             }
-            
-            
-            
-            
-
             //在已选弹层上事件代理，用于删除已选
             selectedViewList.onclick = function(e){
                 var e = e||window.event;
@@ -122,11 +102,6 @@
                     input.onclick();
                 }
             }
-            
-            
-            
-           
-
             for (var i = 0; i < tr.length; i++) {
 
                 //表格每一行上事件代理
@@ -162,10 +137,6 @@
                 	}
                 	getTotal();
                 }
-                
-                
-                
-
                 //绑定数量输入框事件，实时更新小计价格
                 tr[i].getElementsByTagName('input')[1].onkeyup = function(){
                 	var val = parseInt(this.value);
@@ -182,12 +153,8 @@
                 	}
                 	getSubTotal(tr);
                 	getTotal();
-                }
-                
-                
-                
+                }     
             }
-
             // 绑定删除按钮事件， 删除已选项
             deleteAll.onclick = function(){
             	if(selectedTotal.innerHTML != '0'){
@@ -203,18 +170,9 @@
 	            	}
             	}
             }
-            
-            
-            
-
             // 默认选择所有商品
             
-            checkAllInputs[0].onclick();
-            
-            
-            
-            
-            
+            checkAllInputs[0].onclick();          
         }
     </script>
 </head>
