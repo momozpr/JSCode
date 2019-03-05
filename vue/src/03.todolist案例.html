@@ -7,13 +7,27 @@
 </head>
 <body>
 <div id="app">
-
+    <input v-model="submitObj" />
+    <button @click="objHandler">提交</button>
+    <ul>
+        <li v-for="(item,index) of list" :key="index">{{item}}</li>
+    </ul>
 </div>
 <script>
     var vm = new Vue({
         el: "#app",
-        data: {},
-        methods: {}
+        data: {
+            submitObj:'',
+            list:[]
+        },
+        methods: {
+            objHandler(){
+                //判断是否为空
+                if(!this.submitObj) return;
+                this.list.push(this.submitObj);
+                this.submitObj = ''
+            }
+        }
     })
 </script>
 </body>

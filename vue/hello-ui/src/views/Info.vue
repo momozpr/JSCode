@@ -1,11 +1,21 @@
 <template>
-    $END$
+    <div>
+      <h1>Info</h1>
+      <button @click="add()">提交</button>
+    </div>
 </template>
 
 <script>
-    export default {
-        name: "Info"
+import store from '@/store'
+export default {
+  name: 'Info',
+  store,
+  methods: {
+    add () {
+      store.commit('increate')
     }
+  }
+}
 </script>
 
 <style scoped>

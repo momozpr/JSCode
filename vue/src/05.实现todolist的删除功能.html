@@ -7,13 +7,57 @@
 </head>
 <body>
 <div id="app">
-
+    <input v-model="submitObj" />
+    <button @click="objHandler">提交</button>
+    <ul>
+        <!--<li v-for="(item,index) of list" :key="index">{{item}}</li>-->
+        <todo-item
+                v-for="(item,index) of list"
+                :key="index"
+                :content="item"
+                :index="index"
+                @delete="vueDelete"
+        ></todo-item>
+    </ul>
 </div>
 <script>
+    //每个组件都是一个vue实例
+    //全局组件
+    // Vue.component('todo-item',{
+    //     //接收组件传进来的内容
+    //     props:['content'],
+    //     template:'<li>{{content}}</li>'
+    // })
+    //局部组件:需要在vue实例中注册
+    var TodoItem = {
+        props:['content','index'],
+        template: '<li @click="componentDelete">{{content}}</li>',
+        methods:{
+            componentDelete(){
+                this.$emit('delete',this.index);
+            }
+        }
+    }
     var vm = new Vue({
         el: "#app",
-        data: {},
-        methods: {}
+        components:{
+            'todo-item':TodoItem
+        },
+        data: {
+            submitObj:'',
+            list:[]
+        },
+        methods: {
+            objHandler(){
+                //判断是否为空
+                if(!this.submitObj) return;
+                this.list.push(this.submitObj);
+                this.submitObj = ''
+            },
+            vueDelete(index){
+                this.list.splice(index,1);
+            }
+        }
     })
 </script>
 </body>
