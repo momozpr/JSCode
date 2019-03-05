@@ -1,0 +1,716 @@
+define(function(require, exports, module) {
+	require('jquery');
+	require('/static/component/base/util/string');
+    require('/static/component/logic/common/userinfo.js');
+    require('/static/component/logic/cart/cart.js');
+
+    var cookieInfo = require("../../base/util/cookie.js");
+	var	suggest = require('/static/component/base/suggest/suggest'),
+		store = require('store');
+
+	//load socket
+	setTimeout(function(){
+		//moco异步加载
+		require.async('/static/moco/v1.0/dist/js/moco.min.js');
+	},0);
+
+
+
+	require.async('chat', function() {
+		var isie = false;
+		var ua = navigator.userAgent.toLowerCase().match(/msie ([\d.]+)/); 
+		if (ua){ 
+			var version = parseInt(ua[1]); 
+			if(version<10){
+				isie = true;
+			}
+		}
+		if(!isie && isLogin){
+			$.chat.init();
+		}
+		
+		var chatmocoTimer = 0;
+		clearTimeout(chatmocoTimer);
+		chatmocoTimer = setTimeout(function(){
+			//im里面重新调用了jquery，为了防止覆盖$方法，moco组件放后面执行
+			require.async('/static/moco/v1.0/dist/js/moco.min.js');
+		},3000);
+	});
+
+	//console.log(cookieInfo)
+
+    if( OP_CONFIG.usercaution && OP_CONFIG.usercaution.length > 0){
+    	var mocoTimer = 0;
+		clearTimeout(mocoTimer);
+    	mocoTimer = setTimeout(function () {
+	        $.alert('警告', {
+	            info : '<span style="font-size: 14px; line-height: 24px;">'+ OP_CONFIG.usercaution +'</span>',
+	            callback: function (){
+	                window.location.href = '//www.imooc.com/passport/user/logout?referer=//www.imooc.com';
+	            }
+	        })
+        },3000);
+    }
+
+    //请求历史通知记录，添加通知红点
+    function notice_remind(e){
+        if( OP_CONFIG.userInfo){
+            $.ajax({
+                url: '/u/loading',
+                dataType: 'json',
+                success: function (res){
+                    if(res.result == 0){
+                    	var isNot = window.location.href.indexOf('notices');
+                    	var isMsg = window.location.href.indexOf('messages');
+                    	if (res.data.remind > 0) {
+                    		_not_unread = 1;
+                    		$('.msg_remind').show();
+                    		if(isNot != -1 || isMsg != -1){
+                    			if(res.data.remind > 99){
+									$('#not_new').find('.not-num').html('99+').show();
+								}else{
+									$('#not_new').find('.not-num').html('('+res.data.remind+')').show();
+								}
+                    		}
+
+						} else {
+							_not_unread = 0;
+							if(!_msg_unread){
+	                    		$('.msg_remind').hide();
+							}
+						}
+                    }
+                }
+            })
+        }
+    }
+
+	//非学习页加载头部和回到顶部脚本
+	function popLoginSns() {
+		require.async('../../logic/login/login-regist', function(login) {
+			login.init();
+		});
+	}
+
+	// 设置“回到顶部”按钮的显隐状态
+	function setGo2TopBtnState() {
+		h = $(window).height();
+		t = $(document).scrollTop();
+		if (t >= 768) {
+			$('#backTop').show();
+			$('#js-elevator-weixin').removeClass('no-goto');
+		} else {
+			$('#backTop').hide();
+			$('#js-elevator-weixin').addClass('no-goto');
+		}
+	}
+	// 判断是否需要提示是否绑定
+	$(document).delegate('.js-closeBindHint',"click",function(e){
+        cookieInfo.set('bindHintNotShow', 'true', { expires:1});
+        $(".js-bindHintBox").hide();
+    })
+
+    // $(function(){
+    // 	if(isLogin&&!ownName){
+	   //  	if(cookieInfo.get('bindHintNotShow')){
+	   //      }else{
+	   //          $(".js-bindHintBox").show();
+	   //      }
+    // 	}
+    // })
+    // 页面刷新
+    $('body').delegate('.js-refresh','click',function(e){
+		window.location.reload();
+	});
+
+    //搜索显示切换
+    $(function(e) {
+		// suggest功能实例化
+		var $searchContainer = $('[data-search="top-banner"]');
+		var searchbox=new suggest($searchContainer);
+
+        var $area = $('.search-area'),
+            $showhide = $('.showhide-search'),
+            $input = $('.search-input');
+
+		var show = function (){
+            $showhide.attr('data-show', 'yes')
+            $area.show(1, function (){ $area.removeClass('min') })
+        }
+		 //show();
+
+
+		$('#nav, #sub-nav').on('click', '.search-input', function (event){
+			$('.searchTags').hide();
+		})
+
+		$('#nav, #sub-nav').on('blur', '.search-input', function (event){
+			if($(event.currentTarget).val().length == 0){
+				$('.searchTags').show();
+			}
+		})
+
+        $('#nav,.course-top-search,#sub-nav,.search-warp').on('click', '.showhide-search', function (event){
+			$('.searchTags').hide();
+            // var isShow = $(this).attr('data-show');
+            // if( isShow == 'no'){
+            //     show()
+            //     $input.focus();
+            // }else{
+            // 	if($input.val()==""){
+            // 		hide()
+            // 	}else{
+            // 		searchbox.search($input.val())
+            // 	}
+            // }
+        	if($input.val()!=""){
+        		searchbox.search($input.val())
+        	}else{
+        		$input.focus();
+        	}
+            event.stopPropagation();
+            return false;
+        })
+
+        $('#nav, #sub-nav').on('click', '.search-area', function (event){
+            event.stopPropagation();
+            return false;
+        })
+
+        $(document).on('click', function (){
+
+            if( $input.val() == ''){
+                hide()
+            }
+        })
+
+
+
+        var hide = function (){
+            // $showhide.attr('data-show', 'no')
+            // $area.fadeOut('slow', function (){
+            //     $area.addClass('min')
+            // })
+        }
+
+
+    })
+
+	$(function(e) {
+
+
+		if(OP_CONFIG.page == 'code'){
+			$('#J_GotoTop').hide();
+		}
+		var timeAlert = 0;
+		clearTimeout(timeAlert);
+		if(OP_CONFIG.userout == -2){
+			timeAlert = setTimeout(function(){
+				$.alert("你的账号在另一地点登录，已被强迫下线。",{
+		            info: "如果不是本人操作，建议你修改密码。",
+		            callback: function(){
+		                window.location.href="//www.imooc.com";
+		            }
+		        });
+			},600);
+		}
+        //
+        notice_remind()
+
+		// 页面初始设置“回到顶部”按钮的显隐状态
+		setGo2TopBtnState();
+
+		$('[action-type="my_menu"],#nav_list').on('mouseenter', function() {
+			$('[action-type="my_menu"]').addClass("hover")
+			$('#nav_list').show()
+		})
+		$('[action-type="my_menu"],#nav_list').on('mouseleave', function() {
+			$('[action-type="my_menu"]').removeClass("hover")
+			$('#nav_list').hide()
+		});
+		$('#set_btn').click(function() {
+			location.href = '/space/course'
+		});
+
+		$('#js-signin-btn').on('click', function(e) {
+			e.preventDefault();
+			require.async('../../logic/login/login-regist', function(login) {
+				login.init();
+			});
+		});
+		$('#js-signup-btn').on('click', function(e) {
+			e.preventDefault();
+			require.async('../../logic/login/login-regist', function(login) {
+				login.signup();
+			});
+		});
+
+		//点击课程链接 清空原来存储选项
+		$("#nav-item a:eq(0)").click(function(event) {
+			//store.clear();
+			store.remove('lange_id');
+			store.remove('pos_id');
+			store.remove('tab_id');
+			store.remove('is_easy');
+			store.remove('sort');
+		});
+
+		// 回到顶部
+		$('#backTop').click(function() {
+			$("html,body").animate({
+				scrollTop: 0
+			}, 200);
+		})
+
+		$(window).scroll(function(e) {
+			setGo2TopBtnState();
+		});
+
+		// 增加提交的快捷键事件广播
+		$(document).on('keydown', function(e){
+		    if(e.keyCode == 13 && e.ctrlKey){
+		    	$(document).trigger("submit.imooc");
+		        e.preventDefault();
+		    }
+		})
+	});
+
+	// 浏览器版本检测
+	!function() {
+		var cookie,
+			ua,
+			match;
+		ua = window.navigator.userAgent;
+		match = /;\s*MSIE (\d+).*?;/.exec(ua);
+		if (match && +match[1] < 9) {
+			cookie = document.cookie.match(/(?:^|;)\s*ic=(\d)/);
+			if (cookie && cookie[1]) {
+				return;
+			}
+			$("body").prepend([
+				"<div id='js-compatible' class='compatible-contianer'>",
+				"<p class='cpt-ct'><i></i>您的浏览器版本过低。为保证最佳学习体验，<a href='/static/html/browser.html'>请点此更新高版本浏览器</a></p>",
+				"<div class='cpt-handle'><a href='javascript:;' class='cpt-agin'>以后再说</a><a href='javascript:;' class='cpt-close'><i></i></a>",
+				"</div>"
+			].join(""));
+			$("#js-compatible .cpt-agin").click(function() {
+				var d = new Date();
+				d.setTime(d.getTime() + 30 * 24 * 3600 * 1000);
+				//d.setTime(d.getTime()+60*1000);
+				document.cookie = "ic=1; expires=" + d.toGMTString() + "; path=/";
+				$("#js-compatible").remove();
+			});
+			$("#js-compatible .cpt-close").click(function() {
+				$("#js-compatible").remove();
+			});
+		}
+	}();
+
+
+	//显示用户个人信息
+	var userTimer = 0;
+	$('#header-user-card').on('mouseenter',function() {
+		clearTimeout(userTimer);
+        if($(this).hasClass('hover')){
+            return;
+        }else{
+            $(this).addClass('hover');
+        }
+	})
+	.on('mouseleave', function(e) {
+		e.stopPropagation();
+        var $this = $(this);
+        
+        userTimer = setTimeout(function (){
+        	if( $this.hasClass('hover') ){
+	            $this.removeClass('hover');
+	        }
+	    },300);
+		
+	});
+
+	//初始化购物车数量
+		var getCookie = function (name) {
+	        var cookieValue = null;
+	        if (document.cookie && document.cookie !== '')
+	        {
+	            var cookies = document.cookie.split(';');
+	            for (var i = 0; i < cookies.length; i++)
+	            {
+	                var cookie = jQuery.trim(cookies[i]);
+	                if (cookie.substring(0, name.length + 1) == (name + '='))
+	                {
+	                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                    break;
+	                }
+	            }
+	        }
+	        return cookieValue;
+	    }
+	    // 未登录下获取购物车
+	    var nologin = function (){
+	        
+	        $('.js-myorderbtn').attr('href', 'javascript:;')
+	        
+	        $('.js-myorderbtn').on('click', function (){
+	            $('#js-signin-btn').click()
+	            return false;
+	        })
+	        
+	        if( getCookie('cart') ){
+	            var len = JSON.parse(getCookie('cart')).length;
+	            if( len > 0 ){
+	                $('.js-cart-num').html(len).attr('data-cartnum',len).show();
+	            }
+	        }
+	        window.getCookie = getCookie;
+	        //$.initGetCart();
+	    }
+	    
+	    // if( isLogin != 1){
+	    //     nologin()
+	    // }else{
+	        //订单改异步
+
+	    var initCartNumber= function(){
+	    	
+	        $.ajax({
+	            url: '//order.imooc.com/pay/cartorder',
+	            dataType: 'jsonp',
+	            jsonp:'jsonpcallback',
+	            success:function (res) {
+	                if(res.result == 0){
+	                    if(res.data.order&&res.data.order*1){
+	                        $('.js-cart-num').attr('data-ordernum',res.data.order);
+	                    }
+	                    if(res.data.cart&&res.data.cart*1){
+	                        var order = parseInt(res.data.order);
+	                        $('.js-cart-num').attr('data-cartnum',res.data.cart);
+	                        $('.js-cart-num').html(parseInt(res.data.cart)+order).show();
+	                    }
+	                }
+	            },
+	            complete:function () {
+	            	
+	            }
+	        }) 
+	    }
+
+	    // }
+	
+	initCartNumber();
+
+	//显示购物车
+	var cartTime = 0;
+	var initCartFlag = 0;
+	$('#shop-cart').on('mouseenter',function() {
+		if(!initCartFlag){
+			initCartFlag = 1
+			$.initGetCart();
+		}
+		clearTimeout(cartTime);
+        if($(this).hasClass('hover')){
+            return;
+        }else{
+            $(this).addClass('hover');
+            $('#nav').addClass('addZ-index');
+        }
+	})
+	.on('mouseleave', function(e) {
+		e.stopPropagation();
+        var $this = $(this);
+        
+        cartTime = setTimeout(function (){
+        	if( $this.hasClass('hover') ){
+	            $this.removeClass('hover');
+                $('#nav').removeClass('addZ-index');
+	            if(OP_CONFIG.module == 'index' && OP_CONFIG.page == 'index') {
+	            	// $('#nav').css('z-index','1000');
+           			$('#nav').addClass('addZ-index');
+	            }else {
+		            // $('#nav').css('z-index','auto');
+             	    $('#nav').removeClass('addZ-index');
+	            }
+	        }
+	    },300);
+		
+	});
+
+	//导航栏删除购物车物品
+	$('#js-my-cart').on('click', '.js-close', function (e){
+        var self = this;
+        var $parent = $(self).parents('.js-item');
+
+        var cid = $parent.data('typeid');
+        var type = $parent.data('type');
+        var gid = $parent.data('goodsid');
+        
+        var data = {
+            type_id : cid,
+            type: type ,
+            goods_id: gid
+        }
+        $.ajax({
+            url: '//order.imooc.com/pay/delcartgoods',
+            dataType: 'jsonp',
+            data: data,
+            jsonp: 'jsonpcallback',
+            success: function (res) {
+                if( res.result == '0' ){
+                    $parent.remove();
+                    var len = $('#js-card-ul').find('li').length;
+                    if( len == 0 ){
+                        var _html = '<div class="cart-title-box clearfix">\
+                                        <h2 class="l">我的购物车</h2>\
+                                        <h5 class="r">已加入<span class="js-incart-num">0</span>门课程</h5>\
+                                    </div>\
+                                    <div class="cart-wrap">\
+                                        <div class="clear-cart">\
+                                            <span class="cartIcon icon-shopping-cart"></span>\
+                                            <h3>购物车里空空如也</h3>\
+                                            <div class="text">快去这里选购你中意的课程</div>\
+                                            <p><a class="go-link" href="//coding.imooc.com" target="_blank">实战课程</a></p>\
+                                            <p><a class="go-link" href="//class.imooc.com" target="_blank">就业班</a></p>\
+                                        </div>\
+                                    </div>\
+                                    <div class="more-box clearfix">\
+                                        <div class="l show-box">\
+                                            <span class="text"><a href="//order.imooc.com/myorder" target="_blank">我的订单中心</a></span>\
+                                        </div>\
+                                        <a href="//order.imooc.com/pay/cart" target="_blank" class="r moco-btn moco-btn-red go-cart">去购物车</a>\
+                                    </div>';
+                        $('#js-my-cart').html(_html);
+                        $('.js-cart-num').html('').attr('data-cartnum',0).hide();
+                    }else {
+                        var _num = parseInt($('.js-cart-num').html());
+                        var dcnum = parseInt($('.js-cart-num').attr('cartnum'));
+                        $('.js-cart-num').html(parseInt(_num-1)).attr('cartnum',parseInt(dcnum-1));
+                        var _cinnum = parseInt($('.js-incart-num').html());
+                        $('.js-incart-num').html(parseInt(_cinnum-1));
+                    }
+                }else{
+                    $.alert(res.msg)
+                }
+            }
+        })
+    })
+
+	$('.js-show-menu').on('click', function(e){
+        $('html').addClass('holding');
+		$('body').addClass('slide-left');
+        if( !$('.slide-left-opa')[0] ){
+            $('body').append('<div class="slide-left-opa" style="position: absolute; top: 0; right: 130px; left: 0;bottom: 0; background: rgba(0 ,0,0,0.3); z-index: 2000;"></div>');
+        }
+
+        document.getElementsByClassName('slide-left-opa')[0].addEventListener("touchstart", function (){
+        $('html').removeClass('holding');
+        $('body').removeClass('slide-left');
+        $('.slide-left-opa').remove();
+            return false;
+        }, false);
+
+        e.stopPropagation()
+        return false;
+	})
+
+    $('body').on('click', '.slide-left-opa', function (){
+        $('html').removeClass('holding');
+        $('body').removeClass('slide-left');
+        $('.slide-left-opa').remove();
+    })
+
+	//判断是否有ast参数，提交统计
+	!function() {
+		// var search = window.location.search,
+		// 	ref = document.referrer;
+		// search = /ast=([^&]+)/.exec(search);
+		// if (ref && ~ref.indexOf('/course/discovery') && search && search[1]) { //从discovery页来 ，避免民刷新当前页统计
+		// 	$.get('/index/adclick', {
+		// 		ast: search[1],
+		// 		r: (new Date).getTime()
+		// 	});
+		// }
+		$(document).on('click', '[data-ast]', function() {
+			$.get('/index/adclick', {
+				ast: $(this).attr('data-ast'),
+				r: (new Date).getTime()
+			});
+		}).on('click', '[data-track]', function() {
+			$.get('/index/clickuserlog', {
+				track: $(this).attr('data-track'),
+				r: (new Date).getTime()
+			});
+		});
+	}();
+
+
+	//显示App下载二维码
+	$("#js-app-load").on('mouseover', function(){
+		$(".js-load-box").show();
+        $('#nav').addClass('addZ-indexCode');
+	})
+	$("#js-app-load").on('mouseout', function(){
+		$(".js-load-box").hide();
+	    $('#nav').removeClass('addZ-indexCode');
+	})
+
+	//导航栏搜索框事件
+	!function(){
+		var nav_search_timer;
+		var navSearchEvent = function(val){//跳转搜索页
+			if(val!=''){
+				window.open("//www.imooc.com/search/?words=" + encodeURIComponent(val));
+			}else{
+				clearTimeout(nav_search_timer);
+				$('.nav-search-input').focus();
+			}
+		}
+		var getSearchHistory = function() { // 最近的0-5条搜索记录
+			$('.nav-search-box .history .history-box').html('');
+	        $.ajax({
+	            type: "GET",
+	            url: "/index/searchhistory",
+	            dataType: "json",
+	            success: function(res) {
+	            	$('#common-input-search .nav-search-box').slideDown(100);//搜索记录请求完下拉
+	            	if(res.result == 0 && res.data.length > 0){
+		            	$('.nav-search-box .history').show();
+						for(var i = 0; i < res.data.length ; i++){
+							var html = '<a href="javascript:void(0)" class="history-item js-history-search">'+res.data[i].word+'</a>';
+							$('.nav-search-box .history .history-box').append(html);
+						}
+	            	}else{
+	            		$('.nav-search-box .history').hide();
+	            	}
+	            }
+	        });
+	    }
+	    var clearSearchHistory = function(){//清空搜索记录
+	    	$('#common-input-search .history').hide();
+	    	$('.nav-search-box .history .history-box').html('');
+	    	$.ajax({
+	            type: "GET",
+	            url: "/search/history",
+	            dataType: "json",
+	            data:{del:1},
+	            success: function(res) {
+	            	if(res.result == 1){
+	            		return;
+	            	}else{
+	            		$.prompt(res.msg||'通信错误，请稍后再试！',{
+	            			icon:'error',
+	            			time:1500
+	            		})
+	            	}
+	            },
+	            error:function(res){
+	            	$.prompt(res.msg||'通信错误，请稍后再试！',{
+            			icon:'error',
+            			time:1500
+            		})
+	            }
+	        });
+	    }
+		var getSearchHot = function(){//获取热搜记录
+			$.ajax({
+				url:'/search/hotwords',
+				type:'post',
+				dataType:'json',
+				success:function(res){
+					if(res.result == 0){
+						$('.nav-search-box .hot').show();
+						$('.nav-search-box .hot .hot-box').html('');
+						for(var i = 0; i < res.data.length ; i++){
+							var html = '<a href="javascript:void(0)" class="hot-item js-history-search">'+res.data[i]+'</a>';
+							$('.nav-search-box .hot .hot-box').append(html);
+						}
+					}
+				}
+			})
+		}
+		$('#common-nav-search').on('click',function(){
+			$(this).hide();
+			if(!(OP_CONFIG.module == 'course' && OP_CONFIG.page == 'list')){
+				$('.header-right .dist-money').hide();
+			}
+			$('#common-input-search').show().find('input').focus();
+			// $('#common-input-search .nav-search-box').slideDown(100);
+			getSearchHistory();
+		})
+		$('#common-input-search .nav-search-input').on('blur',function(){
+			nav_search_timer = setTimeout(function(){
+				$('#common-input-search').hide();
+				$('#common-input-search .nav-search-box').hide();
+				$('#common-input-search .nav-correlate-box').hide();
+				$('#common-input-search .nav-search-input').val('');
+				$('#common-nav-search').show();
+				if(!(OP_CONFIG.module == 'course' && OP_CONFIG.page == 'list')){
+					$('.header-right .dist-money').show();
+				}
+			},200)
+		})
+		$('#common-input-search .nav-search-input').on('keyup',function(e){
+			$('.nav-search-box').hide();
+			var val = $(this).val();
+			if(e.keyCode == 13){
+				navSearchEvent(val);
+			}else{
+				$.ajax({
+					url:'/search/correlate',
+					type:'post',
+					dataType:'json',
+					data:{word:val},
+					success:function(res){
+						if(res.result == 1){
+							$('#common-input-search .correlate').html('');
+							var html = '',url;
+							for(var i = 0 ; i < res.data.length ; i++){
+								var data = res.data[i];
+								if(data.index == 'course'){
+									url = '//www.imooc.com/learn/'+data.id;
+								}else if(data.index == 'shizhan_course'){
+									url = '//coding.imooc.com/class/'+data.id+'.html';
+								}
+								if(data.type == 'tbl_zy_plan'){
+									url = '//class.imooc.com/sc/'+data.id;
+								}
+								html += '<a class="correlate-item" target="_blank" href="'+url+'">'+data.highlight+'</a>'
+							}
+							$('#common-input-search .correlate').append(html);
+							$('#common-input-search .nav-correlate-box').slideDown(100);
+						}
+					}
+				})
+			}
+		})
+		$('#common-input-search .js-nav-searchBtn').on('click',function(){
+			var val = $('#common-input-search .nav-search-input').val();
+			navSearchEvent(val);
+		})
+		$('#common-input-search').on('click','.js-history-search',function(){
+			var val = $(this).html();
+			navSearchEvent(val);
+		})
+		$('#common-input-search').on('click','.js-clear-history',function(){
+			clearTimeout(nav_search_timer);
+			$('#common-input-search .nav-search-input').focus();
+			clearSearchHistory();
+		})
+		var init = function(){
+			getSearchHot();
+		}
+		init();
+	}()
+	
+});
+// (function () {
+// 	var visitlog={
+// 	includejs:function(jsurl){
+// 	var s = document.createElement("script");s.type = "text/javascript";s.src = jsurl;
+// 	document.getElementsByTagName('body')[0].appendChild(s);
+// 	}
+// 	};
+// 	visitlog.includejs('/visitlog/index/user?v='+(new Date).getTime());
+// 	visitlog.includejs('https://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js');
+// })();
+
